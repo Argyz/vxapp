@@ -68,8 +68,8 @@ export const startUploadEmployee = (formState) => {
             ...formState,
         }
  
-        console.log(updateEmployee);
-        /* await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
+       
+        await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
@@ -77,7 +77,7 @@ export const startUploadEmployee = (formState) => {
             body: JSON.stringify(updateEmployee)
         })
         .then((response) => response.json())
-        .then((json) => console.log(json)) */
+        .then((json) => console.log(json))
     }
 }
 
