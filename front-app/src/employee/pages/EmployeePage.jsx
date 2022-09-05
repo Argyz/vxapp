@@ -6,7 +6,7 @@ import { Typography } from '@mui/material';
 import { EmployeeForm } from '../components';
 import { findData } from '../../helper/findData';
 import { EmployeeCard } from '../components/EmployeeCard';
-import { startActiveEmployee, startDeleteEmployee } from '../../store/employee/thunk';
+import { startActiveEmployee, startDeleteEmployee, startUploadEmployee } from '../../store/employee/thunk';
 import { typography } from '@mui/system';
 
 
@@ -23,6 +23,7 @@ export const EmployeePage = () => {
 
     const activeEmployee = findData(users, id)
 
+   
     useEffect(() => {
         dispatch(startActiveEmployee(id, activeEmployee))
     }, [id, users])
@@ -36,29 +37,34 @@ export const EmployeePage = () => {
         dispatch(startDeleteEmployee());
     }
 
-    const onUpdate = () => {
-        setFormUpdate(true);
+    const changeStateUpload=()=>{
 
+        setFormUpdate(true);
     }
 
+    const onUpdate = (formState) => {
+    
+        dispatch(startUploadEmployee(formState))
+
+    }
 
     return (
         <>
 
             {
                 (users.length === 0)
-                    ? <Typography>Loading</Typography>
+                    ? <Typography>Loading...</Typography>
                     : <EmployeeCard
                         activeEmployee={activeEmployee}
                         onNavigateBack={onNavigateBack}
                         onDelete={onDelete}
-                        onUpdate={onUpdate}
+                        onUpdate={changeStateUpload}
                     />
 
             }
 
             {
-                formUpdate && <EmployeeForm submit={onUpdate} formName={"Update Employee"}/>
+                formUpdate && <EmployeeForm submit={onUpdate} formName={"Update"} activeEmployee={activeEmployee} formUpdate={formUpdate}/>
             }
 
 

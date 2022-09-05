@@ -1,40 +1,51 @@
-import React from 'react'
-import {useNavigate} from 'react-router-dom'
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { Button, Grid, TextField, Typography } from '@mui/material';
 import { useForm } from '../../hooks/useForm';
 
-
 export const EmployeeForm = (props) => {
-
     
-    const {submit,formName}=props;
+    
+    const [dateValue, setDateValue] = useState(false)
 
-    const navigate=useNavigate();
+    const { submit, formName, formUpdate, activeEmployee } = props;
+
+    const navigate = useNavigate();
 
     const {
-        first_name = 'alex',
-        last_name = 'arga',
-        email = 'alex@gmail.com',
-        phone_number = '4331565',
-        hire_date = '',
-        job_id = '2',
-        salary = '99999',
-        commission_pct = '0.2',
-        manager_id = '1',
-        department_id = '2',
+        first_name = formUpdate ? activeEmployee.first_name : "",
+        last_name = formUpdate ? activeEmployee.last_name : "",
+        email = formUpdate ? activeEmployee.email : "",
+        phone_number = formUpdate ? activeEmployee.phone_number : "",
+        hire_date = formUpdate ? (activeEmployee.hire_date).slice(0,-14) : "",
+        job_id = formUpdate ? activeEmployee.job_id : "",
+        salary = formUpdate ? activeEmployee.salary : "",
+        commission_pct = formUpdate ? activeEmployee.commission_pct : "",
+        manager_id = formUpdate ? activeEmployee.manager_id : "",
+        department_id = formUpdate ? activeEmployee.department_id : "",
         formState,
         onInputChange } = useForm();
 
+
+
     const onSubmitHandler = (e) => {
         e.preventDefault();
-
+        
         submit(formState)
 
         navigate(-1)
     }
 
-    const onNavigateBack=()=>{
+    const onNavigateBack = () => {
         navigate(-1)
+    }
+
+    const focusDateHandler = () => {
+        setDateValue(true);
+    }
+
+    const blurDateHandler = () => {
+        setDateValue(false);
     }
 
     return (
@@ -100,12 +111,14 @@ export const EmployeeForm = (props) => {
                 <Grid item xs={6} sx={{ mt: 2 }}>
                     <TextField
                         label="HireDate"
-                        type="date"
+                        type={dateValue ? "date" : "text"}
                         placeholder='Hire Date'
                         fullWidth
                         name='hire_date'
                         onChange={onInputChange}
                         value={hire_date}
+                        onFocus={focusDateHandler}
+                        onBlur={blurDateHandler}
                     />
                 </Grid>
 
@@ -173,7 +186,7 @@ export const EmployeeForm = (props) => {
 
             <Button
                 size='medium'
-                sx={{ mt: 3, mb:3 }}
+                sx={{ mt: 3, mb: 3 }}
                 onClick={onNavigateBack}
             >
                 Back
@@ -182,10 +195,10 @@ export const EmployeeForm = (props) => {
                 type="submit"
                 color='success'
                 size='medium'
-                sx={{ mt: 3, mb:3 }}
+                sx={{ mt: 3, mb: 3 }}
 
             >
-                
+
                 {formName}
             </Button>
         </form>

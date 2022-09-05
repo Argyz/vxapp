@@ -10,13 +10,12 @@ export const getLoadingEmployee = () => {
         const data = await res.json();
 
         dispatch(getEmployee({ employee: data.results }));
-
     }
 }
 
 export const startCreateUser = (formValue) => {
 
-    return async (dispatch) => {
+    return async () => {
 
         await fetch(`${baseURL}api/users`, {
             method: 'POST',
@@ -25,28 +24,28 @@ export const startCreateUser = (formValue) => {
             },
             body: JSON.stringify(formValue)
         })
-        .then((response)=> response.json())
-        .then((data)=>console.log(data))
-
+            .then((response) => response.json())
+            .then((data) => console.log(data))
     }
 }
 
-export const startActiveEmployee = (id,activeEmployee) => {
-    
-    return async(dispatch)=>{
+export const startActiveEmployee = (id, activeEmployee) => {
+
+    return async (dispatch) => {
 
         dispatch(setActiveEmployee(id))
         dispatch(activeUser(activeEmployee))
-        
+
     }
 }
 
 export const startDeleteEmployee = () => {
 
-    return async(dispatch,getState)=>{
-        const {activeUser} = getState().employee;
-        const {activeIdEmployee}=getState().employee;
-        /* await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
+    return async (dispatch,getState) => {
+        const { activeUser } = getState().employee;
+        const { activeIdEmployee } = getState().employee;
+       
+        await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
             method: 'DELETE',
             headers: {
                 'Content-Type': 'application/json'
@@ -54,6 +53,31 @@ export const startDeleteEmployee = () => {
             body: JSON.stringify(activeUser)
         })
         .then((response)=>response.json())
-        .then((json)=>console.log(json)) */
+        .then((json)=>console.log(json))
     }
 }
+
+export const startUploadEmployee = (formState) => {
+
+    return async(dispatch,getState) => {
+
+        const { activeIdEmployee,activeUser } = getState().employee;
+        
+        const updateEmployee={
+            ...activeUser,
+            ...formState,
+        }
+ 
+        console.log(updateEmployee);
+        /* await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(updateEmployee)
+        })
+        .then((response) => response.json())
+        .then((json) => console.log(json)) */
+    }
+}
+
