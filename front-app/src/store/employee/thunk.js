@@ -1,4 +1,4 @@
-import { getEmployee, activeUser, setActiveEmployee } from "./employeeSlice"
+import { getEmployee, activeUser, setActiveEmployee, getSearchEmploye } from "./employeeSlice"
 import { baseURL } from "../../api/apiURL"
 
 
@@ -41,10 +41,10 @@ export const startActiveEmployee = (id, activeEmployee) => {
 
 export const startDeleteEmployee = () => {
 
-    return async (dispatch,getState) => {
+    return async (dispatch, getState) => {
         const { activeUser } = getState().employee;
         const { activeIdEmployee } = getState().employee;
-       
+
         await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
             method: 'DELETE',
             headers: {
@@ -52,23 +52,23 @@ export const startDeleteEmployee = () => {
             },
             body: JSON.stringify(activeUser)
         })
-        .then((response)=>response.json())
-        .then((json)=>console.log(json))
+            .then((response) => response.json())
+            .then((json) => console.log(json))
     }
 }
 
 export const startUploadEmployee = (formState) => {
 
-    return async(dispatch,getState) => {
+    return async (dispatch, getState) => {
 
-        const { activeIdEmployee,activeUser } = getState().employee;
-        
-        const updateEmployee={
+        const { activeIdEmployee, activeUser } = getState().employee;
+
+        const updateEmployee = {
             ...activeUser,
             ...formState,
         }
- 
-       
+
+
         await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
             method: 'PUT',
             headers: {
@@ -76,8 +76,26 @@ export const startUploadEmployee = (formState) => {
             },
             body: JSON.stringify(updateEmployee)
         })
-        .then((response) => response.json())
-        .then((json) => console.log(json))
+            .then((response) => response.json())
+            .then((json) => console.log(json))
     }
 }
+
+
+export const startSearchEmployee = (name='') => {
+
+    return async (dispatch) => {
+        
+        try {
+
+            const res = await fetch(`${baseURL}api/users/?first_name=${name}`)
+            const data = await res.json();
+
+            dispatch(getSearchEmploye(data));
+
+        } catch (error) {
+
+        }
+    }
+};
 

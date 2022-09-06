@@ -6,6 +6,7 @@ export const employeeSlice = createSlice({
     initialState: {
         activeIdEmployee:null,
         activeUser:{},
+        employeesSearch:[],
         users: [],
         page: 0,
     
@@ -27,6 +28,10 @@ export const employeeSlice = createSlice({
             
         },
 
+        getSearchEmploye:(state,action) => {
+            state.employeesSearch=action.payload.results;
+        },
+
         updateUser: (state, action) => {
             
         },
@@ -43,6 +48,7 @@ export const {
     getEmployee, 
     setActiveEmployee,
     activeUser, 
+    getSearchEmploye,
     updateUser, 
     deleteUserById,
 } = employeeSlice.actions;
