@@ -31,9 +31,9 @@ export const EmployeeForm = (props) => {
     const onSubmitHandler = (e) => {
         e.preventDefault();
         
-        submit(formState)
+        submit(formState);
 
-        navigate(-1)
+        navigate(-1);
     }
 
     const onNavigateBack = () => {

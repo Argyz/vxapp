@@ -6,7 +6,7 @@ export const getLoadingEmployee = () => {
 
     return async (dispatch) => {
 
-        const res = await fetch(`${baseURL}api/users`);
+        const res = await fetch(`${baseURL}`);
         const data = await res.json();
 
         dispatch(getEmployee({ employee: data.results }));
@@ -17,15 +17,20 @@ export const startCreateUser = (formValue) => {
 
     return async () => {
 
-        await fetch(`${baseURL}api/users`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(formValue)
-        })
-            .then((response) => response.json())
-            .then((data) => console.log(data))
+        try {
+            
+            await fetch(`${baseURL}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(formValue)
+            })
+                .then((response) => response.json())
+                .then((data) => console.log(data))
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
@@ -45,15 +50,20 @@ export const startDeleteEmployee = () => {
         const { activeUser } = getState().employee;
         const { activeIdEmployee } = getState().employee;
 
-        await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(activeUser)
-        })
-            .then((response) => response.json())
-            .then((json) => console.log(json))
+        try {
+            
+            await fetch(`${baseURL}${activeIdEmployee}`, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(activeUser)
+            })
+                .then((response) => response.json())
+                .then((json) => console.log(json))
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
@@ -68,33 +78,40 @@ export const startUploadEmployee = (formState) => {
             ...formState,
         }
 
+        try {
 
-        await fetch(`${baseURL}api/users/${activeIdEmployee}`, {
-            method: 'PUT',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(updateEmployee)
-        })
-            .then((response) => response.json())
-            .then((json) => console.log(json))
+            await fetch(`${baseURL}${activeIdEmployee}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updateEmployee)
+            })
+                .then((response) => response.json())
+                .then((json) => console.log(json))
+
+        } catch (error) {
+            console.log(error);
+        }
     }
 }
 
 
-export const startSearchEmployee = (name='') => {
+export const startSearchEmployee = (name, page,limit) => {
 
+    
     return async (dispatch) => {
-        
+
         try {
-
-            const res = await fetch(`${baseURL}api/users/?first_name=${name}`)
+            
+            const res = await fetch(`${baseURL}?first_name=${name}&page=${page}&limit=${limit}`);
             const data = await res.json();
-
+        
+            
             dispatch(getSearchEmploye(data));
 
         } catch (error) {
-
+            console.log(error);
         }
     }
 };

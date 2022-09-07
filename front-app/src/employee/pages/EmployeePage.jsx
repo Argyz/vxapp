@@ -45,6 +45,7 @@ export const EmployeePage = () => {
     const onUpdate = (formState) => {
     
         dispatch(startUploadEmployee(formState))
+        navigate(-1);
 
     }
 

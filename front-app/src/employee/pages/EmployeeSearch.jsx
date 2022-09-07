@@ -2,7 +2,7 @@ import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import queryString from 'query-string';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Box, Grid, TextField, Typography } from '@mui/material';
+import { Box, Grid, TextField, Typography, Button } from '@mui/material';
 
 import { useForm } from '../../hooks/useForm';
 import { startSearchEmployee } from '../../store/employee/thunk';
@@ -13,22 +13,27 @@ export const EmployeeSearch = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const dispatch = useDispatch();
-    const { employeesSearch } = useSelector(state => state.employee);
 
+    const { employeesSearch } = useSelector(state => state.employee);
+    const { page: pagesUsers } = useSelector(state => state.employee);
+    const { limit: limitUsers } = useSelector(state => state.employee);
 
     const { q } = queryString.parse(location.search);
 
-    const { searchText, onInputChange } = useForm({
+
+    const { searchText, page, limit, onInputChange } = useForm({
         searchText: '',
+        page:'',
+        limit:'',
     });
 
     const onSearchSubmit = (e) => {
+        
         e.preventDefault();
+        navigate(`?q=${searchText.toLowerCase().trim()}&pagae=${page}&limit=${limit}`);
+        
 
-        navigate(`?q=${searchText.toLowerCase().trim()}`);
-
-
-        dispatch(startSearchEmployee(searchText));
+        dispatch(startSearchEmployee(searchText, page, limit));
 
     }
 
@@ -70,6 +75,46 @@ export const EmployeeSearch = () => {
                             onChange={onInputChange}
                             value={searchText}
                         />
+                        <TextField
+                            label="Page"
+                            type="text"
+                            placeholder='Page'
+                            name='page'
+                            onChange={onInputChange}
+                            value={page}
+                            sx={{
+                                marginTop: 1,
+                                maxWidth: 100
+                            }}
+
+                        />
+                        <TextField
+                            label="Limit"
+                            type="text"
+                            placeholder='Limit'
+                            name='limit'
+                            onChange={onInputChange}
+                            value={limit}
+                            sx={{
+                                marginTop: 1,
+                                marginLeft: 1,
+                                maxWidth: 100
+                            }}
+
+                        />
+
+                        <Button
+                            variant="contained"
+                            type='submit'
+                            sx={{
+                                mt: 2,
+                                maxWidth: 100,
+                                display: 'block'
+                            }}
+                        >
+                            Search
+                        </Button>
+
                     </form>
                 </Grid>
                 <Grid
@@ -84,9 +129,9 @@ export const EmployeeSearch = () => {
                     <hr />
 
                     {
-                        employeesSearch.length !== 0 
+                        employeesSearch.length !== 0
 
-                            ? ( <Box sx={{
+                            ? (<Box sx={{
                                 display: 'flex',
                                 alignItems: 'center',
                                 background: '#cce5ff',
@@ -94,7 +139,7 @@ export const EmployeeSearch = () => {
                                 color: '#004085',
                                 borderRadius: 2,
                                 mt: 2
-        
+
                             }}>
                                 <Typography sx={{
                                     margin: 2,
@@ -102,7 +147,7 @@ export const EmployeeSearch = () => {
                                     Search a Employee
                                 </Typography>
                             </Box>)
-                            :(<Box sx={{
+                            : (<Box sx={{
                                 display: 'flex',
                                 alignItems: 'center',
                                 background: '#f8d7da',
@@ -118,9 +163,8 @@ export const EmployeeSearch = () => {
                                 </Typography>
                             </Box>)
                     }
-                   
-                </Grid>
 
+                </Grid>
             </Grid>
 
             <Grid
@@ -130,7 +174,11 @@ export const EmployeeSearch = () => {
 
             >
                 {
-                    <EmployeesTablePagination employeesSearch={employeesSearch} />
+                    <EmployeesTablePagination 
+                        employeesSearch={employeesSearch} 
+                        page={pagesUsers}
+                        limit={limitUsers} 
+                    />
                 }
             </Grid>
         </>

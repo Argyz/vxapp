@@ -77,7 +77,7 @@ const columns = [
     },
 ];
 
-export const EmployeesTablePagination = ({ employeesSearch }) => {
+export const EmployeesTablePagination = ({ employeesSearch,page,limit}) => {
 
 
     const rows = employeesSearch.map( emp => ({
@@ -93,8 +93,8 @@ export const EmployeesTablePagination = ({ employeesSearch }) => {
         manager_id:emp.manager_id,
         department_id:emp.department_id,
 
-    })) 
-   
+    }))
+    
     return (
         <>
             
@@ -104,7 +104,6 @@ export const EmployeesTablePagination = ({ employeesSearch }) => {
                     columns={columns}
                     pageSize={5}
                     rowsPerPageOptions={[5]}
-                    checkboxSelection
                     disableSelectionOnClick
                     experimentalFeatures={{ newEditingApi: true }}
                 />
