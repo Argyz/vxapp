@@ -1,0 +1,15 @@
+.activeStyle {
+    border: none;
+    padding: 10px 16px;
+    color: #fff;
+    cursor: pointer;
+}
+
+.activeStyle:hover{
+    color: #B2FFFF;
+}
+
+.active{
+    color: #B2FFFF;
+    background-color: #2d3436;
+}

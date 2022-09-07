@@ -6,6 +6,8 @@ import { AllEmployeesPage } from '../employee/pages/AllEmployeesPage'
 import { EmployeePage } from '../employee/pages/EmployeePage'
 import { getLoadingEmployee } from '../store'
 
+import {NavBar} from '../layout';
+
 export const AppRouter = () => {
 
     const dispatch = useDispatch();
@@ -19,8 +21,11 @@ export const AppRouter = () => {
 
     return (
         <>
+            
+            <NavBar />
+            
             <div>
-
+                
                 <Routes>
                     <Route path='/' element={<AllEmployeesPage />} />
                     <Route path='employee/:id' element={<EmployeePage />} />
