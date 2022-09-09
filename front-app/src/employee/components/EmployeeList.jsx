@@ -33,7 +33,11 @@ export const EmployeeList = ({ employee }) => {
                 <TableCell align='center'>{employee.department_id}</TableCell>
                 <TableCell align='center'>
                     <Button>
-                        <Link to={`/employee/${employee.employee_id}`}>Mas...</Link>
+                        <Link
+                        style={{
+                            textDecoration:'none',
+                        }} 
+                        to={`/employee/${employee.employee_id}`}>Details...</Link>
                     </Button>
                 </TableCell>
 

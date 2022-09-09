@@ -17,6 +17,7 @@ export const EmployeeCard = (props) => {
             container
             justifyContent='center'
             sx={{
+                mt:10,
                 height: 500,
             }}
         >

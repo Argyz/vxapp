@@ -10,7 +10,7 @@ export const employeeSlice = createSlice({
         users: [],
         page: 0,
         limit: 0,
-
+        
     },
 
     reducers: {
@@ -35,6 +35,7 @@ export const employeeSlice = createSlice({
                 state.employeesSearch=action.payload.resultado;
                 state.page=action.payload.resultadosJson.next.page;
                 state.limit=action.payload.resultadosJson.next.limit;
+                
 
             } else {
                 state.employeesSearch=action.payload.results;

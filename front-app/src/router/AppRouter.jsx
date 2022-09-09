@@ -1,23 +1,23 @@
 import React,{useEffect} from 'react'
-import { useDispatch} from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { Routes, Route, Navigate } from 'react-router-dom'
 import { EmployeeAdd, EmployeeSearch } from '../employee/pages'
 import { AllEmployeesPage } from '../employee/pages/AllEmployeesPage'
 import { EmployeePage } from '../employee/pages/EmployeePage'
-import { getLoadingEmployee } from '../store'
 
-import {NavBar} from '../layout';
+import { getLoadingEmployee } from '../store'
+import {NavBar} from '../ui';
 
 export const AppRouter = () => {
 
+    
     const dispatch = useDispatch();
-   
+    
     useEffect(() => {
-      
+        
         dispatch(getLoadingEmployee())
     
     }, [dispatch])
-    
 
     return (
         <>
