@@ -4,10 +4,14 @@ import { Button } from '@mui/material'
 import {Link} from 'react-router-dom'
 import { EmployeeTable } from '../components'
 import { getLoadingEmployee } from '../../store'
-
-
+import { useSelector } from 'react-redux';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 
 export const AllEmployeesPage = () => {
+
+
+    const {messageSaved}=useSelector(state=>state.employee);
 
     const dispatch = useDispatch();
     
@@ -16,6 +20,12 @@ export const AllEmployeesPage = () => {
         dispatch(getLoadingEmployee())
     
     }, [dispatch])
+
+    useEffect(()=>{
+        if (messageSaved.length > 0) {
+            Swal.fire('Accion completada con exito',messageSaved,'success');
+        }
+    },[messageSaved]);
 
     return (
         <>

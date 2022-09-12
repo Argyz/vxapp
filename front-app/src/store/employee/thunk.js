@@ -1,4 +1,4 @@
-import { getEmployee, activeUser, setActiveEmployee, getSearchEmploye } from "./employeeSlice"
+import { getEmployee, activeUser, setActiveEmployee, getSearchEmploye,updateUser,deleteUserById } from "./employeeSlice"
 import { baseURL } from "../../api/apiURL"
 
 
@@ -37,10 +37,13 @@ export const startCreateUser = (formValue) => {
 export const startActiveEmployee = (id, activeEmployee) => {
 
     return async (dispatch) => {
-
+        
+        
         dispatch(setActiveEmployee(id))
+
         dispatch(activeUser(activeEmployee))
 
+    
     }
 }
 
@@ -60,10 +63,14 @@ export const startDeleteEmployee = () => {
                 body: JSON.stringify(activeUser)
             })
                 .then((response) => response.json())
-                .then((json) => console.log(json))
+                .then((json) => console.log(json));
+
+            dispatch(deleteUserById(activeUser.employee_id))
         } catch (error) {
             console.log(error);
         }
+
+        
     }
 }
 
@@ -88,7 +95,10 @@ export const startUploadEmployee = (formState) => {
                 body: JSON.stringify(updateEmployee)
             })
                 .then((response) => response.json())
-                .then((json) => console.log(json))
+                .then((json) => console.log(json));
+
+        
+            dispatch(updateUser(activeUser.employee_id))
 
         } catch (error) {
             console.log(error);

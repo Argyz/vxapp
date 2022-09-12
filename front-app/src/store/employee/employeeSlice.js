@@ -10,6 +10,7 @@ export const employeeSlice = createSlice({
         users: [],
         page: 0,
         limit: 0,
+        messageSaved:'',
         
     },
 
@@ -20,17 +21,21 @@ export const employeeSlice = createSlice({
         },
 
         setActiveEmployee: (state, action) => {
-
+            
+    
             state.activeIdEmployee = action.payload;
+            
         },
 
         activeUser: (state, action) => {
+            
             state.activeUser = action.payload;
-
+            state.messageSaved='';
         },
 
         getSearchEmploye: (state, action) => {
             
+            state.messageSaved='';
             if (action.payload.resultadosJson) {
                 state.employeesSearch=action.payload.resultado;
                 state.page=action.payload.resultadosJson.next.page;
@@ -43,11 +48,12 @@ export const employeeSlice = createSlice({
         },
 
         updateUser: (state, action) => {
-
+            
+            state.messageSaved=`Empleado ${action.payload} actualizado correctamente`
         },
 
         deleteUserById: (state, action) => {
-
+            state.messageSaved=`Empleado ${action.payload} eleminado correctamente`
         },
 
     }

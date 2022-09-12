@@ -9,25 +9,29 @@ import { EmployeeCard } from '../components/EmployeeCard';
 import { startActiveEmployee, startDeleteEmployee, startUploadEmployee } from '../../store/employee/thunk';
 import { typography } from '@mui/system';
 
-
 export const EmployeePage = () => {
-
+    
     const { id } = useParams();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
 
-    const [formUpdate, setFormUpdate] = useState(false);
 
-    const { users = [] } = useSelector(state => state.employee);
+    const [formUpdate, setFormUpdate] = useState(false);
+    
+    const { users=[] } = useSelector(state => state.employee);
+    
 
     const activeEmployee = findData(users, id)
-
-   
+    
     useEffect(() => {
-        dispatch(startActiveEmployee(id, activeEmployee))
-    }, [id, users])
+        if (activeEmployee) {
+            dispatch(startActiveEmployee(activeEmployee.employee_id, activeEmployee));
+        }
+        
+    }, [id,users]);
 
+    
     const onNavigateBack = () => {
         navigate(-1);
     }
@@ -35,6 +39,7 @@ export const EmployeePage = () => {
     const onDelete = () => {
 
         dispatch(startDeleteEmployee());
+        navigate(-1);
     }
 
     const changeStateUpload=()=>{
@@ -46,7 +51,6 @@ export const EmployeePage = () => {
     
         dispatch(startUploadEmployee(formState))
         navigate(-1);
-
     }
 
     return (
